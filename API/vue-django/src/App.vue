@@ -1,28 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">API</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/">Inicio</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/about">About</router-link>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Busqueda de productos" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Buscar</button>
-        </form>
-      </div>
-    </div>
-  </nav>
+ <navbar-component></navbar-component>
   <router-view />
+  <footer-component></footer-component>
 </template>
 
 <style>
@@ -47,3 +26,16 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
+
+<script>
+import FooterComponent from './components/FooterComponent.vue';
+import NavbarComponent from './components/NavbarComponent.vue';
+export default {
+  name: 'App',
+
+  components: {
+    FooterComponent,
+    NavbarComponent
+  }
+}
+</script>
