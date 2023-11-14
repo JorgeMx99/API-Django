@@ -1,55 +1,81 @@
 <template>
-  <content class="content">
-    <main>
+  <main>
 
-      <section class="py-5 text-center container">
-        <div class="row py-lg-5">
-          <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Tienda</h1>
-            <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the
-              creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+    <section class="py-5 text-center container">
+      <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <h1 class="fw-light">Tienda</h1>
+          <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the
+            creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="album py-3 bg-body-tertiary">
+
+      <div class="container">
+        <div class="" v-if="$route.path == '/'">
+          <button type="button" class="btn btn-outline-success ms-2" v-for="category in categories" :key="category.id">{{
+            category.name }}</button>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-4 py-3" v-for="product in products" :key="product.id">
+            <div class="card mb-4">
+              <img class="bd-placeholder-img card-img-top" :src="product.image" width="100%" height="225">
+              <div class="card-body">
+                <h5>{{ product.name }}</h5>
+                <p class="card-title text-info">{{ product.category_name }}</p>
+                <hr>
+                <small class="card-text">{{ product.description }}</small>
+                
+              </div>
+              <div class="card-footer d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <small class="text-muted">{{ product.price_type_description }}</small>
+                  </div>
+                  <small class="text-muted">${{ product.price }}</small>
+                </div>
+            </div>
           </div>
         </div>
-      </section>
 
-      <div class="album py-5 bg-body-tertiary">
-        <div class="container">
-
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <div class="col">
-              <div class="card shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
-                  role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                  <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
-                    dy=".3em">Thumbnail</text>
-                </svg>
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-body-secondary">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </div>
       </div>
     </div>
 
   </main>
-
-  
-  </content>
-  </template>
+</template>
 
 <script>
 
+import axios from 'axios'
 export default {
   name: 'HomeView',
+
+  data() {
+    return {
+      categories: [],
+      products: []
+    }
+  },
+
+  mounted() {
+    axios.get('http://127.0.0.1:8000/api/categories/')
+      .then(response => {
+        this.categories = response.data
+      })
+      .catch(error => {
+        console.log(error)
+      })
+
+    axios.get('http://127.0.0.1:8000/api/products/')
+      .then(response => {
+        this.products = response.data
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 }
 </script>
