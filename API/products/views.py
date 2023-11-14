@@ -15,14 +15,16 @@ class ProductViewSet(viewsets.ModelViewSet):
         
         if category:
             queryset = queryset.filter(category=category)
+
+
+        search = self.request.query_params.get('search',None)
+        if search is not None:
+            queryset = queryset.filter(name__icontains=search)| queryset.filter(description__icontains=search)
         return queryset
-    #@action(detail=False)
-    #def by_category(self, request):
-      #  category = self.request.query_params.get('category', None)
-      #  products = Product.objects.filter(category=category)
-      #  serializer = ProductSerializer(products, many=True)
-     #   return Response(serializer.data)
+    
         
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+

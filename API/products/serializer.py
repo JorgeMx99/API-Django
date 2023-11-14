@@ -3,9 +3,19 @@ from .models import Category, Product
 from django_filters import rest_framework as filters
 
 class ProductFilter(filters.FilterSet):
+
+    category=filters.NumberFilter(field_name='category',lookup_expr='exact')
+    name=filters.CharFilter(method='filter_by_search',lookup_expr='icontains')
+
+    def filter_by_search(self,queryset,value):
+        return queryset.filter(name__icontains=value) | queryset.filter(description__icontains=value)
+    
     class Meta:
         model:Product
-        fields:['category',]
+        fields:{
+            'category':['exact'],
+            'name': ['icontains'],
+            }
 
 class ProductSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source= 'category.name')

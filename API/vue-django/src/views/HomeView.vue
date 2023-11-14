@@ -16,8 +16,9 @@
       <div class="container">
         <div class="" v-if="$route.path == '/'">
           <button type="button" class="btn btn-outline-success ms-2" v-for="category in categories" :key="category.id"
-            @click="getCategoryID(category.id, category.name)">{{
-              category.name }}</button>
+            @click="getCategoryID(category.id, category.name), fe">{{
+              category.name }} </button>
+              
         </div>
 
         <div class="py-3" v-if="categoryRecivied">
@@ -26,7 +27,7 @@
         </div>
         
         <div class="alert alert-warning p-2" role="alert" v-if="filteredProducts.length === 0">
-          Lamentablemente no hay productos de la categoria {{ categoryRecivied }}
+          Lamentablemente no hay productos de la categoria <strong>{{ categoryRecivied }}</strong>
         </div>
 
         <div class="row">
@@ -91,6 +92,8 @@ export default {
       this.filteredProducts = this.allProducts
     }
 
+    
+
   },
 
   mounted() {
@@ -113,4 +116,11 @@ export default {
       })
   }
 }
+
+
+
 </script>
+
+<style>
+
+</style>
