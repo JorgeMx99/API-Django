@@ -15,9 +15,10 @@
                         <router-link class="nav-link" to="/about">About</router-link>
                     </li>
                 </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Busqueda de productos" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+                <form class="d-flex" role="search" @submit.prevent="submitForm">
+                    <input class="form-control me-2" type="search" placeholder="Busqueda de productos" aria-label="Search"
+                        v-model="searchText">
+                    <button class="btn btn-outline-success" type="submit" @click="getSearch">Buscar</button>
                 </form>
             </div>
         </div>
@@ -25,10 +26,13 @@
 </template>
 
 
-<script>
+<script setup>
+import { ref } from 'vue';
 
-export default {
-    name: 'NarvarComponent'
+const searchText = ref('')
+
+const getSearch = () => {
+    console.log(searchText.value)
 
 }
 </script>

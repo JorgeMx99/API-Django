@@ -1,5 +1,5 @@
 <template>
-  <NavbarComponent v-if="$route.path !='/'"/>
+  <NavbarComponent @getSearchText="search" />
   <main>
 
     <section class="py-5 text-center container">
@@ -62,13 +62,20 @@
 
 import axios from 'axios'
 import { ref, defineEmits, onMounted } from 'vue'
-import NavbarComponent from '@/components/NavbarComponent.vue'
+import NavbarComponent from '@/components/NavbarComponent.vue';
+
 
 const products = ref([])
 const categoryRecivied = ref(null)
 const filteredProducts = ref([])
-
 const categories = ref([])
+
+
+const search = (searchText) => {
+  console.log('Busqueda')
+}
+
+
 
 const resetfilter = () => {
   categoryRecivied.value = null
@@ -80,14 +87,14 @@ const emit = defineEmits(['getCategoryID'])
 const getCategory = (id, name,) => {
   emit('getCategoryID', id, name)
   categoryRecivied.value = name
-  if (id){
+  if (id) {
     filteredProducts.value = products.value.filter((product) => product.category === id)
-  } else{
+  } else {
     filteredProducts.value = products.value
-}
+  }
 }
 
-onMounted (() => {
+onMounted(() => {
   axios.get('http://127.0.0.1:8000/api/categories/')
     .then(response => {
       categories.value = response.data
