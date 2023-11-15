@@ -16,16 +16,16 @@
       <div class="container">
         <div class="" v-if="$route.path == '/'">
           <button type="button" class="btn btn-outline-success ms-2" v-for="category in categories" :key="category.id"
-            @click="getCategoryID(category.id, category.name), fe">{{
+            @click="getCategory(category.id, category.name), fe">{{
               category.name }} </button>
-              
+
         </div>
 
         <div class="py-3" v-if="categoryRecivied">
           <h3>Productos de la Categoria: {{ categoryRecivied }}</h3>
           <button type="button" class="btn btn-outline-warning ms-2" @click="resetfilter">Todas las categorias</button>
         </div>
-        
+
         <div class="alert alert-warning p-2" role="alert" v-if="filteredProducts.length === 0">
           Lamentablemente no hay productos de la categoria <strong>{{ categoryRecivied }}</strong>
         </div>
@@ -57,70 +57,57 @@
   </main>
 </template>
 
-<script>
+<script setup>
 
 import axios from 'axios'
-export default {
-  name: 'HomeView',
+import { ref, defineEmits, onMounted } from 'vue'
 
-  data() {
-    return {
-      categories: [],
-      products: [],
-      categoryRecivied: null,
-      categoryID: null,
-      categoryName: null,
-      filteredProducts: [],
-    }
-  },
 
-  methods: {
-    getCategoryID(categoryID, categoryName) {
-      this.$emit('getCategoryID', categoryID, categoryName)
-      this.categoryRecivied = categoryName
-      if (categoryID) {
-        this.filteredProducts = this.allProducts.filter((product) => product.category === categoryID)
-      } else {
-        this.filteredProducts = this.allProducts
-      }
+const products = ref([])
+const categoryRecivied = ref(null)
+const filteredProducts = ref([])
 
-    },
+const categories = ref([])
 
-    resetfilter() {
-
-      this.categoryRecivied = null
-      this.filteredProducts = this.allProducts
-    }
-
-    
-
-  },
-
-  mounted() {
-    axios.get('http://127.0.0.1:8000/api/categories/')
-      .then(response => {
-        this.categories = response.data
-
-      })
-      .catch(error => {
-        console.log(error)
-      })
-
-    axios.get('http://127.0.0.1:8000/api/products/')
-      .then(response => {
-        this.allProducts = response.data
-        this.filteredProducts = this.allProducts
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
+const resetfilter = () => {
+  categoryRecivied.value = null
+  filteredProducts.value = products.value
 }
+
+const emit = defineEmits(['getCategoryID'])
+
+const getCategory = (id, name,) => {
+  emit('getCategoryID', id, name)
+  categoryRecivied.value = name
+  if (id){
+    filteredProducts.value = products.value.filter((product) => product.category === id)
+  } else{
+    filteredProducts.value = products.value
+}
+}
+
+onMounted (() => {
+  axios.get('http://127.0.0.1:8000/api/categories/')
+    .then(response => {
+      categories.value = response.data
+
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+  axios.get('http://127.0.0.1:8000/api/products/')
+    .then(response => {
+      products.value = response.data
+      filteredProducts.value = products.value
+    })
+    .catch(error => {
+      console.log(error)
+    })
+})
 
 
 
 </script>
 
-<style>
-
-</style>
+<style></style>

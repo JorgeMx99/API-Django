@@ -1,7 +1,7 @@
 <template>
- <navbar-component></navbar-component>
+  <navbar-component />
   <router-view />
-  <footer-component></footer-component>
+  <footer-component />
 </template>
 
 <style>
@@ -27,15 +27,9 @@ nav a.router-link-exact-active {
 }
 </style>
 
-<script>
+<script setup>
 import FooterComponent from './components/FooterComponent.vue';
 import NavbarComponent from './components/NavbarComponent.vue';
-export default {
-  name: 'App',
 
-  components: {
-    FooterComponent,
-    NavbarComponent
-  }
-}
+
 </script>
