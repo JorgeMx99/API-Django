@@ -23,12 +23,25 @@
         </div>
 
         <div class="py-3" v-if="categoryRecivied">
-          <h3>Productos de la Categoria: {{ categoryRecivied }}</h3>
-          <button type="button" class="btn btn-outline-warning ms-2" @click="resetfilter">Todas las categorias</button>
+          <div class="py-3">
+            <h3>Productos de la Categoria: {{ categoryRecivied }}</h3>
+            <button type="button" class="btn btn-outline-warning ms-2" @click="resetfilter">Todas las categorias</button>
+          </div>
+
+          <div class="alert alert-warning p-2" role="alert" v-if="filteredProducts.length === 0">
+            Lamentablemente no hay productos de la categoria <strong>{{ categoryRecivied }}</strong>
+          </div>
         </div>
 
-        <div class="alert alert-warning p-2" role="alert" v-if="filteredProducts.length === 0">
-          Lamentablemente no hay productos de la categoria <strong>{{ categoryRecivied }}</strong>
+        <div class="py-3" v-if="searchTextRule">
+          <div class="py-3">
+            <h3>Productos con las palabras: {{ searchTextRule }}</h3>
+            <button type="button" class="btn btn-outline-warning ms-2" @click="resetfilter">Todas las categorias</button>
+          </div>
+
+          <div class="alert alert-warning p-2" role="alert" v-if="filteredProducts.length === 0">
+            Lamentablemente no hay productos de:  <strong>{{ searchTextRule }}</strong>
+          </div>
         </div>
 
         <div class="row">
@@ -65,14 +78,31 @@ import { ref, defineEmits, onMounted } from 'vue'
 import NavbarComponent from '@/components/NavbarComponent.vue';
 
 
+
 const products = ref([])
 const categoryRecivied = ref(null)
 const filteredProducts = ref([])
 const categories = ref([])
+const searchTextRule = ref(null)
 
 
 const search = (searchText) => {
-  console.log('Busqueda')
+  searchTextRule.value = searchText
+  categoryRecivied.value = null
+  if (searchText) {
+    filteredProducts.value = products.value.filter((product) => {
+      const productName = product.name.toLowerCase();
+      const productDescription = product.description.toLowerCase();
+      const searchTerm = searchText.toLowerCase();
+      return (
+        productName.includes(searchTerm) ||
+        productDescription.includes(searchTerm)
+
+      )
+    })
+  } else {
+    filteredProducts.value = products.value
+  }
 }
 
 
@@ -80,12 +110,14 @@ const search = (searchText) => {
 const resetfilter = () => {
   categoryRecivied.value = null
   filteredProducts.value = products.value
+  searchTextRule.value = null
 }
 
 const emit = defineEmits(['getCategoryID'])
 
 const getCategory = (id, name,) => {
   emit('getCategoryID', id, name)
+  searchTextRule.value = null
   categoryRecivied.value = name
   if (id) {
     filteredProducts.value = products.value.filter((product) => product.category === id)
@@ -93,6 +125,7 @@ const getCategory = (id, name,) => {
     filteredProducts.value = products.value
   }
 }
+
 
 onMounted(() => {
   axios.get('http://127.0.0.1:8000/api/categories/')

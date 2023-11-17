@@ -14,8 +14,12 @@
                     <li class="nav-item">
                         <router-link class="nav-link" to="/about">About</router-link>
                     </li>
+               
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/productos">Productos</router-link>
+                    </li>
                 </ul>
-                <form class="d-flex" role="search" @submit.prevent="submitForm">
+                <form class="d-flex" role="search" @submit.prevent="submitForm" v-if="$route.path !='/about'">
                     <input class="form-control me-2" type="search" placeholder="Busqueda de productos" aria-label="Search"
                         v-model="searchText">
                     <button class="btn btn-outline-success" type="submit" @click="getSearch">Buscar</button>
@@ -27,12 +31,13 @@
 
 
 <script setup>
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 
 const searchText = ref('')
 
+const emitSearch = defineEmits(['getSearchText'])
 const getSearch = () => {
-    console.log(searchText.value)
 
+    emitSearch('getSearchText', searchText.value)
 }
 </script>
