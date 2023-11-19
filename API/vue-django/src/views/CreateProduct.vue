@@ -34,7 +34,7 @@
                 <div class="col-md-6 mb-3">
                     <label for="firstName">Tipo de Precio</label>
                     <select class="form-control" placeholder="" required>
-                        <option v-for="product in products" :value="product.price_type" :key="product.price_type">{{ product.price_type_description}}
+                        <option v-for="product in products" :value="price_type" :key="product.price_type">{{ price_type_description}}
                         </option>
                     </select>
                     <div class="invalid-feedback">
