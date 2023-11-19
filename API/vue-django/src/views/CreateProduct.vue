@@ -4,14 +4,14 @@
         <form class="needs-validation" @submit.prevent="handleAddProductForm" id="AddProductForm">
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="firstName">Nombre</label>
+                    <label>Nombre</label>
                     <input type="text" class="form-control" placeholder="" value="" required>
                     <div class="invalid-feedback">
                         Valid first name is required.
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="lastName">Categoria</label>
+                    <label>Categoria</label>
                     <select class="form-control" placeholder="" required>
                         <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.name }}
                         </option>
@@ -31,8 +31,8 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="firstName">Tipo de Precio</label>
+                <div class="col-md-4 mb-3">
+                    <label>Tipo de Precio</label>
                     <select class="form-control" placeholder="" required>
                         <option v-for="product in products" :options="product.price_type" :value="product.price_type" :key="product.price_type">{{ product.price_type_description}}
                         </option>
@@ -41,9 +41,16 @@
                         Valid first name is required.
                     </div>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="lastName">Precio</label>
+                <div class="col-md-4 mb-3">
+                    <label>Precio</label>
                     <input type="number" class="form-control" placeholder="" value="" required>
+                    <div class="invalid-feedback">
+                        Valid last name is required.
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label>Cargar imagen</label>
+                    <input type="file" class="form-control" placeholder="" value="" required>
                     <div class="invalid-feedback">
                         Valid last name is required.
                     </div>
