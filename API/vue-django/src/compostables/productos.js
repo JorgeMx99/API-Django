@@ -67,9 +67,6 @@ export default function useProducts() {
 
   }
 
-
- 
-
   return {
     getAllProducts,
     getAllPrices,
