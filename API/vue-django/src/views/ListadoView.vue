@@ -3,6 +3,7 @@
 
 
         <h1>Listado</h1>
+        <RouterLink class="btn btn-primary" to="/create-product">Agregar Producto</RouterLink>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -14,14 +15,14 @@
                 </tr>
             </thead>
             <tbody>
-                <template v-for="product in products" :key="product.id"> 
+                <template v-for="product in products" :key="product.id">
                     <tr>
                         <th scope="row">{{ product.id }}</th>
                         <td>{{ product.name }}</td>
                         <td>{{ product.category_name }}</td>
                         <td>{{ product.description }}</td>
                         <td>{{ product.price_type }}</td>
-                        <td>{{ product.price}}</td>
+                        <td>{{ product.price }}</td>
                     </tr>
                 </template>
             </tbody>
@@ -29,7 +30,12 @@
     </div>
 </template>
   
-<script>
+<script setup>
+import useProducts from '@/compostables/productos';
+import { onMounted } from 'vue';
 
+const {products, getAllProducts} = useProducts();
+
+onMounted(getAllProducts)
 
 </script>

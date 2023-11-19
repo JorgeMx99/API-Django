@@ -19,7 +19,7 @@
                         <router-link class="nav-link" to="/productos">Productos</router-link>
                     </li>
                 </ul>
-                <form class="d-flex" role="search" @submit.prevent="submitForm" v-if="$route.path !='/about'">
+                <form class="d-flex" role="search" @submit.prevent="submitForm" v-if="$route.path =='/'">
                     <input class="form-control me-2" type="search" placeholder="Busqueda de productos" aria-label="Search"
                         v-model="searchText">
                     <button class="btn btn-outline-success" type="submit" @click="getSearch">Buscar</button>
