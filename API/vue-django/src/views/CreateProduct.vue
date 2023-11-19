@@ -68,7 +68,7 @@ const formData = reactive({
     category: [],
     description: "",
     price_type: [],
-    image: [],
+    
 });
 
 const handleAddProductForm = async () => {
