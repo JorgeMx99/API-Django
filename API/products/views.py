@@ -1,8 +1,7 @@
 from rest_framework import viewsets
-from .models import Category, Product
-from .serializer import CategorySerializer, ProductSerializer
-from rest_framework.decorators import action
-from rest_framework.response import Response
+from .models import Category, Product, Price
+from .serializer import CategorySerializer, ProductSerializer, PriceSerializer
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
@@ -26,5 +25,9 @@ class ProductViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+class PriceViewSet(viewsets.ModelViewSet):
+    queryset = Price.objects.all()
+    serializer_class = PriceSerializer
 
 

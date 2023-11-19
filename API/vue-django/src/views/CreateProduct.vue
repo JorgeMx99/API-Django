@@ -5,55 +5,38 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label>Nombre</label>
-                    <input type="text" class="form-control" placeholder="" value="" required>
-                    <div class="invalid-feedback">
-                        Valid first name is required.
-                    </div>
+                    <input v-model.trim="formData.name" id="name" type="text" class="form-control" placeholder="" required>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label>Categoria</label>
-                    <select class="form-control" placeholder="" required>
+                    <select v-model.trim="formData.category" id="category" class="form-control" placeholder="" required>
                         <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.name }}
                         </option>
                     </select>
-                    <div class="invalid-feedback">
-                        Valid last name is required.
-                    </div>
                 </div>
             </div>
 
             <div class="mb-3">
                 <label>Descripción <span class="text-muted">(Optional)</span></label>
-                <textarea class="form-control"></textarea>
-                <div class="invalid-feedback">
-                    Please enter a valid email address for shipping updates.
-                </div>
+                <textarea v-model.trim="formData.description" id="description" class="form-control"></textarea>
             </div>
 
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <label>Tipo de Precio</label>
-                    <select class="form-control" placeholder="" required>
-                        <option v-for="product in products" :options="product.price_type" :value="product.price_type" :key="product.price_type">{{ product.price_type_description}}
+                    <select v-model.trim="formData.price_type" class="form-control" placeholder="">
+                        <option v-for="price in prices" :value="price.id" :key="price.id">{{ price.name }}
                         </option>
                     </select>
-                    <div class="invalid-feedback">
-                        Valid first name is required.
-                    </div>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label>Precio</label>
-                    <input type="number" class="form-control" placeholder="" value="" required>
-                    <div class="invalid-feedback">
-                        Valid last name is required.
-                    </div>
+                    <input v-model.trim="formData.price" id="price" type="number" class="form-control" placeholder=""
+                        required>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label>Cargar imagen</label>
-                    <input type="file" class="form-control" placeholder="" value="" required>
-                    <div class="invalid-feedback">
-                        Valid last name is required.
-                    </div>
+                    <input id="image" type="file" ref="file" class="form-control">
                 </div>
 
                 <div class="mb-3">
@@ -70,20 +53,28 @@
   
 <script setup>
 import useProducts from '@/compostables/productos';
-import { onMounted } from 'vue';
+import { onMounted, reactive } from 'vue';
 
-const {categories, getAllCategories} = useProducts();
-const {products, getAllProducts} = useProducts();
-
+const { categories, getAllCategories } = useProducts();
+const { prices, getAllPrices } = useProducts();
 onMounted(getAllCategories)
-onMounted(getAllProducts)
+onMounted(getAllPrices)
 
-const formData =({
+const { createProduct } = useProducts();
 
+
+const formData = reactive({
+    name: "",
+    category: [],
+    description: "",
+    price_type: [],
 });
 
-const handleAddProductForm = async() =>{
-    console.log("Formulario Enviado", formData)
+const handleAddProductForm = async () => {
+    await createProduct(formData)
 }
+
+
+
 
 </script>

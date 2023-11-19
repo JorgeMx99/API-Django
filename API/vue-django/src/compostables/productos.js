@@ -4,9 +4,12 @@ import { ref } from "vue"
 export default function useProducts() {
   const URL_PRODUCTS = 'http://127.0.0.1:8000/api/products/'
   const URL_CATEGORIES = 'http://127.0.0.1:8000/api/categories/'
+  const URL_PRICES = 'http://127.0.0.1:8000/api/prices/'
   const products = ref([])
+  const prices = ref([])
   const categories = ref([])
   const error = ref(null)
+
 
   const getAllProducts = async () => {
     products.value = []
@@ -25,6 +28,17 @@ export default function useProducts() {
     try {
       const res = await axios(URL_CATEGORIES)
       categories.value = res.data
+    } catch (err) {
+      error.value = err
+    }
+  }
+
+  const getAllPrices = async () => {
+    prices.value = []
+    error.value = null
+    try {
+      const res = await axios(URL_PRICES)
+      prices.value = res.data
     } catch (err) {
       error.value = err
     }
@@ -53,13 +67,18 @@ export default function useProducts() {
 
   }
 
+
+ 
+
   return {
     getAllProducts,
+    getAllPrices,
     getAllCategories,
     createProduct,
     error,
     products,
     categories,
+    prices,
 
   }
 }

@@ -21,7 +21,7 @@
                         <td>{{ product.name }}</td>
                         <td>{{ product.category_name }}</td>
                         <td>{{ product.description }}</td>
-                        <td>{{ product.price_type }}</td>
+                        <td>{{ product.price_type_description }}</td>
                         <td>{{ product.price }}</td>
                     </tr>
                 </template>
