@@ -60,10 +60,14 @@ export default function useProducts() {
       }
       const res = await axios(config)
       products.value = res.data
+      window.location.href='productos'
     } catch (err) {
       error.value = err
 
     }
+
+  
+
 
   }
 
@@ -76,6 +80,7 @@ export default function useProducts() {
     products,
     categories,
     prices,
+
 
   }
 }

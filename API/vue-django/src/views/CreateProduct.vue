@@ -55,10 +55,16 @@
 import useProducts from '@/compostables/productos';
 import { onMounted, reactive } from 'vue';
 
+
+
 const { categories, getAllCategories } = useProducts();
 const { prices, getAllPrices } = useProducts();
+
+
+
 onMounted(getAllCategories)
 onMounted(getAllPrices)
+
 
 const { createProduct } = useProducts();
 
@@ -73,6 +79,8 @@ const formData = reactive({
 
 const handleAddProductForm = async () => {
     await createProduct(formData)
+
+
 }
 
 
