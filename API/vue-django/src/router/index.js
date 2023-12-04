@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import Productos from '../views/ListadoView.vue'
+import Create from '../views/CreateProduct.vue'
+import View from '../views/ViewProduct.vue'
 
 const routes = [
   {
@@ -19,18 +22,24 @@ const routes = [
   {
     path: '/productos',
     name: 'productos',
-    component: () => import(/* webpackChunkName: "about" */ '../views/ListadoView.vue')
+    component:Productos
   },
   {
     path: '/create-product',
     name: 'create-product',
-    component: () => import(/* webpackChunkName: "about" */ '../views/CreateProduct.vue')
+   component:Create
+  },
+
+  {
+    path: '/view/:id',
+    name: 'view',
+    component:View
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes:routes
 })
 
 export default router

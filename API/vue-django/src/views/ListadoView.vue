@@ -14,8 +14,8 @@
                 </tr>
             </thead>
             <tbody>
-                <template v-for="product in products" :key="product.id">
-                    <tr>
+                
+                    <tr v-for="product in products" :key="product.id">
                         <th scope="row">{{ product.id }}</th>
                         <td>{{ product.name }}</td>
                         <td>{{ product.category_name }}</td>
@@ -27,12 +27,12 @@
                             <p class="text-muted mb-0">{{ product.price }}</p>
                         </td>
                         <td>
-                            <a class="ms-2"><i class="bi bi-pencil-square"></i> </a>
-                            <a class="ms-2"><i class="bi bi-eye"></i></a>
+                            <RouterLink :to="{name: 'view', params:{id:product.id }}" class="ms-2"><i class="bi bi-eye "></i> </RouterLink>
+                            <a class="ms-2"><i class="bi  bi-pencil-square"></i></a>
                             <a class="ms-2"><i class="bi bi-trash"></i></a>
                         </td>
                     </tr>
-                </template>
+
             </tbody>
         </table>
     </div>

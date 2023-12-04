@@ -60,21 +60,34 @@ export default function useProducts() {
       }
       const res = await axios(config)
       products.value = res.data
-      window.location.href='productos'
+      window.location.href = 'productos'
     } catch (err) {
       error.value = err
 
     }
-
-  
-
-
   }
+
+    //Obtener solo un ID
+
+    const getSingleProduct = async (id) => {
+      products.value = []
+      error.value = null
+      try {
+        const res = await axios(URL_PRODUCTS + id)
+        products.value = res.data
+      } catch(err) {
+        error.value = err
+
+      }
+
+    }
+
 
   return {
     getAllProducts,
     getAllPrices,
     getAllCategories,
+    getSingleProduct,
     createProduct,
     error,
     products,
