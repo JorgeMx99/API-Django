@@ -27,11 +27,9 @@
                             <p class="text-muted mb-0">{{ product.price }}</p>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold">
-                               <a>View </a>
-                               <a>Edit </a>
-                               <a>Delete </a>
-                            </button>
+                            <a class="ms-2"><i class="bi bi-pencil-square"></i> </a>
+                            <a class="ms-2"><i class="bi bi-eye"></i></a>
+                            <a class="ms-2"><i class="bi bi-trash"></i></a>
                         </td>
                     </tr>
                 </template>
