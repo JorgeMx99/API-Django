@@ -67,20 +67,42 @@ export default function useProducts() {
     }
   }
 
-    //Obtener solo un ID
+  //Obtener solo un ID
 
-    const getSingleProduct = async (id) => {
-      products.value = []
-      error.value = null
-      try {
-        const res = await axios(URL_PRODUCTS + id)
-        products.value = res.data
-      } catch(err) {
-        error.value = err
-
-      }
+  const getSingleProduct = async (id) => {
+    products.value = []
+    error.value = null
+    try {
+      const res = await axios(URL_PRODUCTS + id)
+      products.value = res.data
+    } catch (err) {
+      error.value = err
 
     }
+
+  }
+
+  const UpdateProduct = async (id,data) => {
+    products.value = []
+    error.value = null
+    try {
+      const config = {
+        method: 'PUT',
+        url: URL_PRODUCTS + id,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: JSON.stringify(data)
+      }
+      const res = await axios(config)
+      products.value = res.data
+      window.location.href = 'productos'
+    } catch (err) {
+      error.value = err
+
+    }
+
+  }
 
 
   return {
@@ -89,6 +111,7 @@ export default function useProducts() {
     getAllCategories,
     getSingleProduct,
     createProduct,
+    UpdateProduct,
     error,
     products,
     categories,

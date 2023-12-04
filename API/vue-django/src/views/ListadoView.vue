@@ -28,7 +28,7 @@
                         </td>
                         <td>
                             <RouterLink :to="{name: 'view', params:{id:product.id }}" class="ms-2"><i class="bi bi-eye "></i> </RouterLink>
-                            <a class="ms-2"><i class="bi  bi-pencil-square"></i></a>
+                            <RouterLink :to="{name: 'edit', params:{id:product.id }}" class="ms-2"><i class="bi  bi-pencil-square"></i></RouterLink>
                             <a class="ms-2"><i class="bi bi-trash"></i></a>
                         </td>
                     </tr>
