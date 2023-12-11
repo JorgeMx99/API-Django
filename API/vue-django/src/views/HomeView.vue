@@ -1,6 +1,6 @@
 <template>
   <NavbarComponent @getSearchText="search" />
-  <main>
+
 
     <section class="py-5 text-center container">
       <div class="row py-lg-5">
@@ -17,7 +17,7 @@
       <div class="container">
         <div class="" v-if="$route.path == '/'">
           <button type="button" class="btn btn-outline-success ms-2" v-for="category in categories" :key="category.id"
-            @click="getCategory(category.id, category.name), fe">{{
+            @click="getCategory(category.id, category.name)">{{
               category.name }} </button>
 
         </div>
@@ -68,7 +68,6 @@
       </div>
     </div>
 
-  </main>
 </template>
 
 <script setup>

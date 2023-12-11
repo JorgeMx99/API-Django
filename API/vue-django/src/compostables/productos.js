@@ -1,5 +1,8 @@
 import axios from "axios"
 import { ref } from "vue"
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
+
 
 export default function useProducts() {
   const URL_PRODUCTS = 'http://127.0.0.1:8000/api/products/'
@@ -10,6 +13,7 @@ export default function useProducts() {
   const categories = ref([])
   const error = ref(null)
   const statusCode = ref(null)
+  const delError = ref(null)
 
 
   const getAllProducts = async () => {
@@ -62,6 +66,10 @@ export default function useProducts() {
       const res = await axios(config)
       products.value = res.data
       window.location.href = 'productos'
+      toast('Producto Agregado Correctamente', {
+        autoclose: 1000,
+      });
+
     } catch (err) {
       error.value = err
 
@@ -98,11 +106,36 @@ export default function useProducts() {
       const res = await axios(config)
       products.value = res.data
       statusCode.value = res.status
+      toast.success('Producto Actualizado Correctamente', {
+        autoclose: 200,
+      });
     } catch (err) {
       error.value = err
 
     }
 
+  }
+
+
+  const deleteProduct = async (id) => {
+    products.value = []
+    error.value = null
+    try {
+      const config = {
+        method: 'DELETE',
+        url: URL_PRODUCTS + id,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      const res = await axios(config)
+      statusCode.value = res.status
+      toast.info('Producto Eliminado Correctamente', {
+        autoclose: 3000,
+      });
+    } catch (err) {
+      delError.value = err
+    }
   }
 
 
@@ -113,11 +146,14 @@ export default function useProducts() {
     getSingleProduct,
     createProduct,
     UpdateProduct,
+    deleteProduct,
     error,
     products,
     categories,
     prices,
     statusCode,
+
+
 
 
   }
