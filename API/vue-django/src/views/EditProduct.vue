@@ -1,16 +1,29 @@
 <template>
     <div class="mx-4">
         <h4 class="mb-3">Editar Producto</h4>
-        <form class="needs-validation" @submit.prevent="handleUpdateProductForm">
+        <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg font-medium" role="alert" v-if="error">
+            Oops! Se ha producido un error: {{ error.message }}
+            <RouterLink :to="{ name: 'productos' }">
+                <button class="btn btn-secondary">Regresar</button>
+            </RouterLink>
+        </div>
+        <form class="needs-validation" @submit.prevent="handleUpdateProductForm" v-else-if="products">
             <div class="row">
-                <div class="col-md-6 mb-3">
+
+                <div class="col-md-1 mb-3">
+                    <label>ID</label>
+                    <input v-model.trim="products.id" disabled id="id" type="text" class="form-control" placeholder=""
+                        required>
+                </div>
+                <div class="col-md-5 mb-3">
                     <label>Nombre</label>
                     <input v-model.trim="products.name" id="name" type="text" class="form-control" placeholder="" required>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label>Categoria</label>
                     <select v-model.trim="products.category" id="category" class="form-control" placeholder="" required>
-                        <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.name }}
+                        <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.name
+                        }}
                         </option>
                     </select>
                 </div>
@@ -36,16 +49,22 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label>Cargar imagen</label>
-                    <input id="image" type="file" ref="file" class="form-control">
+                    <input type="file" id="image" class="form-control">
                 </div>
 
                 <div class="mb-3">
-                    <button class="btn btn-success" type="submit">Guardar</button>
+                    <button class="btn btn-success mx-4" type="submit">Guardar</button>
+                    <RouterLink :to="{ name: 'productos' }">
+                        <button class="btn btn-secondary">Regresar</button>
+                    </RouterLink>
                 </div>
+
             </div>
-
-
         </form>
+
+        <div class="alert alert-success" role="alert" v-if="statusCode === 200">
+            Producto Actualizado Correctamente
+        </div>
     </div>
 </template>
 
@@ -56,19 +75,19 @@ import useProducts from '@/compostables/productos';
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
-
+const { products, statusCode, error, getSingleProduct, UpdateProduct } = useProducts();
 const { categories, getAllCategories } = useProducts();
 const { prices, getAllPrices } = useProducts();
-const { products, getSingleProduct, UpdateProduct } = useProducts();
+
 
 const { params } = useRoute()
 
 onMounted(() => {
-    getSingleProduct(params.id)
-})
+    getSingleProduct(params.id),
+        getAllCategories(),
+        getAllPrices()
+});
 
-onMounted(getAllCategories)
-onMounted(getAllPrices)
 
 function handleUpdateProductForm() {
     UpdateProduct(params.id, products.value)

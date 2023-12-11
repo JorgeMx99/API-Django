@@ -9,6 +9,7 @@ export default function useProducts() {
   const prices = ref([])
   const categories = ref([])
   const error = ref(null)
+  const statusCode = ref(null)
 
 
   const getAllProducts = async () => {
@@ -82,7 +83,7 @@ export default function useProducts() {
 
   }
 
-  const UpdateProduct = async (id,data) => {
+  const UpdateProduct = async (id, data) => {
     products.value = []
     error.value = null
     try {
@@ -96,7 +97,7 @@ export default function useProducts() {
       }
       const res = await axios(config)
       products.value = res.data
-      window.location.href = 'productos'
+      statusCode.value = res.status
     } catch (err) {
       error.value = err
 
@@ -116,6 +117,7 @@ export default function useProducts() {
     products,
     categories,
     prices,
+    statusCode,
 
 
   }
