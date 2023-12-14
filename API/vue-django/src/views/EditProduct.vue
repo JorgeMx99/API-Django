@@ -49,7 +49,7 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label>Cargar imagen</label>
-                    <input type="file" id="image" class="form-control">
+                    <input type="file" id="image" @change="handleImageChange" accept="image/*" />
                 </div>
 
                 <div class="mb-3">
@@ -95,5 +95,9 @@ function handleUpdateProductForm() {
 
 
 
+const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    products.image = file;
+};
 
 </script>

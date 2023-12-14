@@ -59,13 +59,12 @@ export default function useProducts() {
         method: 'POST',
         url: URL_PRODUCTS,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'multipart/form-data',
         },
-        data: JSON.stringify(formData)
+        data: formData,
       }
       const res = await axios(config)
       products.value = res.data
-      window.location.href = 'productos'
       toast('Producto Agregado Correctamente', {
         autoclose: 1000,
       });

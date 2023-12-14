@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label>Cargar imagen</label>
-                    <input id="image" type="file" ref="file" class="form-control">
+                    <input type="file" id="image" @change="handleImageChange" accept="image/*" />
                 </div>
 
                 <div class="mb-3">
@@ -73,16 +73,19 @@ const formData = reactive({
     category: [],
     description: "",
     price_type: [],
-    price:""
-
+    price: "",
+    image: null
 });
 
 const handleAddProductForm = async () => {
     await createProduct(formData)
-   
+
 }
 
-
+const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    formData.image = file;
+};
 
 
 </script>
