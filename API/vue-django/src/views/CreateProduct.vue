@@ -73,6 +73,7 @@ const formData = reactive({
     category: [],
     description: "",
     price_type: [],
+    price:""
 
 });
 
