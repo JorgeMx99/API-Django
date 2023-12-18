@@ -97,7 +97,6 @@ function handleUpdateProductForm() {
 
 const handleImageChange = (event) => {
     const file = event.target.files[0];
-    products.image = file;
+    products.value.image = file;
 };
-
 </script>

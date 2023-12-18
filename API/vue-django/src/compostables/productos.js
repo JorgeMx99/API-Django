@@ -63,6 +63,8 @@ export default function useProducts() {
         },
         data: formData,
       }
+      
+
       const res = await axios(config)
       products.value = res.data
       toast('Producto Agregado Correctamente', {
@@ -91,29 +93,46 @@ export default function useProducts() {
   }
 
   const UpdateProduct = async (id, data) => {
-    products.value = []
-    error.value = null
+    products.value = [];
+    error.value = null;
+  
     try {
+      const formData = new FormData();
+  
+      // Agregar campos de datos a FormData
+      formData.append('name', data.name);
+      formData.append('category', data.category);
+      formData.append('description', data.description);
+      formData.append('price_type', data.price_type);
+      formData.append('price', data.price);
+  
+      // Verificar si se seleccionó una imagen
+      if (data.image) {
+        formData.append('image', data.image);
+      }
+  
       const config = {
         method: 'PUT',
         url: URL_PRODUCTS + id,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'multipart/form-data'
         },
-        data: JSON.stringify(data)
-      }
-      const res = await axios(config)
-      products.value = res.data
-      statusCode.value = res.status
+        data: formData,
+      };
+      console.log('Datos:', data)
+      
+      const res = await axios(config);
+  
+      products.value = res.data;
+      statusCode.value = res.status;
+  
       toast.success('Producto Actualizado Correctamente', {
         autoclose: 200,
       });
     } catch (err) {
-      error.value = err
-
+      error.value = err;
     }
-
-  }
+  };
 
 
   const deleteProduct = async (id) => {
