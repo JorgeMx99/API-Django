@@ -2,6 +2,8 @@ import axios from "axios"
 import { ref } from "vue"
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
+import useApiRequests from "./api";
+import { useRouter } from 'vue-router';
 
 
 export default function useProducts() {
@@ -14,46 +16,28 @@ export default function useProducts() {
   const error = ref(null)
   const statusCode = ref(null)
   const delError = ref(null)
+  const { handleApiRequest } = useApiRequests();
+  const router = useRouter();
 
 
-  const getAllProducts = async () => {
-    products.value = []
-    error.value = null
-    try {
-      const res = await axios(URL_PRODUCTS)
-      products.value = res.data
-    } catch (err) {
-      error.value = err
-    }
-  }
+  const getAllProducts = () => {
+    handleApiRequest(URL_PRODUCTS, products);
+  };
 
-  const getAllCategories = async () => {
-    categories.value = []
-    error.value = null
-    try {
-      const res = await axios(URL_CATEGORIES)
-      categories.value = res.data
-    } catch (err) {
-      error.value = err
-    }
-  }
+  const getAllCategories = () => {
+    handleApiRequest(URL_CATEGORIES, categories);
+  };
 
-  const getAllPrices = async () => {
-    prices.value = []
-    error.value = null
-    try {
-      const res = await axios(URL_PRICES)
-      prices.value = res.data
-    } catch (err) {
-      error.value = err
-    }
-  }
+  const getAllPrices = () => {
+    handleApiRequest(URL_PRICES, prices);
+  };
 
   //Crear Nuevo Producto 
 
   const createProduct = async (formData) => {
-    products.value = []
-    error.value = null
+ 
+    error.value = null;
+  
     try {
       const config = {
         method: 'POST',
@@ -62,20 +46,29 @@ export default function useProducts() {
           'Content-Type': 'multipart/form-data',
         },
         data: formData,
-      }
+      };
+  
+      const res = await axios(config);
+      const { data } = res;
+  
+      products.value = data;
       
+      router.push({ name: 'productos' }); 
 
-      const res = await axios(config)
-      products.value = res.data
-      toast('Producto Agregado Correctamente', {
-        autoclose: 1000,
+      toast.success('Producto Agregado Correctamente', {
+        autoclose: 10000, 
       });
 
+  
     } catch (err) {
-      error.value = err
-
+      error.value = err;
+      console.error('Error al agregar el producto:', err);
+  
+      toast.error('Error al agregar el producto', {
+        onOpen: 30000,
+      });
     }
-  }
+  };
 
   //Obtener solo un ID
 
@@ -93,7 +86,6 @@ export default function useProducts() {
   }
 
   const UpdateProduct = async (id, data) => {
-    products.value = [];
     error.value = null;
   
     try {
@@ -119,18 +111,21 @@ export default function useProducts() {
         },
         data: formData,
       };
-      console.log('Datos:', data)
-      
+  
       const res = await axios(config);
   
       products.value = res.data;
       statusCode.value = res.status;
   
       toast.success('Producto Actualizado Correctamente', {
-        autoclose: 200,
+        autoclose: 2000, // Ajustado a 2000 ms (2 segundos)
       });
     } catch (err) {
       error.value = err;
+      console.error('Error al actualizar el producto:', err);
+      toast.error('Error al actualizar el producto', {
+        autoclose: 3000, // Puedes ajustar el tiempo de autocierre según tus necesidades
+      });
     }
   };
 

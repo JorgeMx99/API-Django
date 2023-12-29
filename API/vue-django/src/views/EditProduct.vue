@@ -1,13 +1,8 @@
 <template>
     <div class="mx-4">
         <h4 class="mb-3">Editar Producto</h4>
-        <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg font-medium" role="alert" v-if="error">
-            Oops! Se ha producido un error: {{ error.message }}
-            <RouterLink :to="{ name: 'productos' }">
-                <button class="btn btn-secondary">Regresar</button>
-            </RouterLink>
-        </div>
-        <form class="needs-validation" @submit.prevent="handleUpdateProductForm" v-else-if="products">
+        
+        <form class="needs-validation" @submit.prevent="handleUpdateProductForm" v-if="products">
             <div class="row">
 
                 <div class="col-md-1 mb-3">
@@ -62,9 +57,7 @@
             </div>
         </form>
 
-        <div class="alert alert-success" role="alert" v-if="statusCode === 200">
-            Producto Actualizado Correctamente
-        </div>
+        
     </div>
 </template>
 
@@ -75,7 +68,7 @@ import useProducts from '@/compostables/productos';
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
-const { products, statusCode, error, getSingleProduct, UpdateProduct } = useProducts();
+const { products, getSingleProduct, UpdateProduct } = useProducts();
 const { categories, getAllCategories } = useProducts();
 const { prices, getAllPrices } = useProducts();
 
