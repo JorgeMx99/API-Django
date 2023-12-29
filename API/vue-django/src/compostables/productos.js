@@ -93,7 +93,7 @@ export default function useProducts() {
 
     }
 
-  }
+  };
 
   const UpdateProduct = async (id, data) => {
     error.value = null;
@@ -143,67 +143,67 @@ export default function useProducts() {
   const deleteProduct = async (id) => {
     // Mostrar SweetAlert 2 para confirmar la eliminación
     const confirmResult = await Swal.fire({
-        title: '¿Estas seguro?',
-        text: "Se eliminara permanentemente este registro",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, eliminar!',
-        cancelButtonText:'Cancelar'
+      title: '¿Estas seguro?',
+      text: "Se eliminara permanentemente este registro",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar!',
+      cancelButtonText: 'Cancelar'
     });
 
     if (confirmResult.isConfirmed) {
-        try {
-            const config = {
-                method: 'DELETE',
-                url: URL_PRODUCTS + id,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
+      try {
+        const config = {
+          method: 'DELETE',
+          url: URL_PRODUCTS + id,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
 
-            const res = await axios(config);
-            statusCode.value = res.status;
+        const res = await axios(config);
+        statusCode.value = res.status;
 
-            
-            await Swal.fire({
-                title: 'Eliminado!',
-                text: 'El registro ha sido eliminado!',
-                icon: 'success'
-            });
-        } catch (err) {
-            
-            delError.value = err;
-            console.error('Error al eliminar el producto:', err);
 
-            
-            await Swal.fire({
-                icon: 'error',
-                title: 'Error al eliminar el producto',
-                text: err.message 
-            });
-        }
+        await Swal.fire({
+          title: 'Eliminado!',
+          text: 'El registro ha sido eliminado!',
+          icon: 'success'
+        });
+      } catch (err) {
+
+        delError.value = err;
+        console.error('Error al eliminar el producto:', err);
+
+
+        await Swal.fire({
+          icon: 'error',
+          title: 'Error al eliminar el producto',
+          text: err.message
+        });
+      }
     }
-};
+  };
 
 
-return {
-  getAllProducts,
-  getAllPrices,
-  getAllCategories,
-  getSingleProduct,
-  createProduct,
-  UpdateProduct,
-  deleteProduct,
-  error,
-  products,
-  categories,
-  prices,
-  statusCode,
+  return {
+    getAllProducts,
+    getAllPrices,
+    getAllCategories,
+    getSingleProduct,
+    createProduct,
+    UpdateProduct,
+    deleteProduct,
+    error,
+    products,
+    categories,
+    prices,
+    statusCode,
 
 
 
 
-}
+  }
 }
