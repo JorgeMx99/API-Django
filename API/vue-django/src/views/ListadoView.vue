@@ -35,7 +35,7 @@
                         </RouterLink>
                         <RouterLink :to="{ name: 'edit', params: { id: product.id } }" class="ms-2"><i
                                 class="bi  bi-pencil-square"></i></RouterLink>
-                        <a class="ms-2"><i class="bi bi-trash" @click="deleteProduct(product.id)"></i></a>
+                        <a class="ms-2"><i class="bi bi-trash" @click="destroyProduct(product.id)"></i></a>
                     </td>
                 </tr>
 
@@ -59,6 +59,9 @@ const { delError, error, statusCode, products, getAllProducts, deleteProduct } =
 
 onMounted(getAllProducts)
 
+const destroyProduct = async (id) => {
+    await deleteProduct(id), getAllProducts();
+};
 
 
 </script>

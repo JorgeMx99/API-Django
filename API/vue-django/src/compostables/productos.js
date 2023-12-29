@@ -4,7 +4,7 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import useApiRequests from "./api";
 import { useRouter } from 'vue-router';
-
+import Swal from 'sweetalert2';
 
 export default function useProducts() {
   const URL_PRODUCTS = 'http://127.0.0.1:8000/api/products/'
@@ -58,18 +58,18 @@ export default function useProducts() {
       setTimeout(() => {
 
         products.value = data;
-    
-          // Redirigir a la página de productos
+
+        // Redirigir a la página de productos
         router.push({ name: 'productos' });
         toast.update(id, {
           render: 'El producto se ha cargado correctamente!',
           autoClose: 3000,
           type: 'success',
-          isLoading:false
+          isLoading: false
         });
       }, 2000);
 
-   
+
     } catch (err) {
       error.value = err;
       console.error('Error al agregar el producto:', err);
@@ -141,43 +141,69 @@ export default function useProducts() {
 
 
   const deleteProduct = async (id) => {
-    products.value = []
-    error.value = null
-    try {
-      const config = {
-        method: 'DELETE',
-        url: URL_PRODUCTS + id,
-        headers: {
-          'Content-Type': 'application/json'
+    // Mostrar SweetAlert 2 para confirmar la eliminación
+    const confirmResult = await Swal.fire({
+        title: '¿Estas seguro?',
+        text: "Se eliminara permanentemente este registro",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText:'Cancelar'
+    });
+
+    if (confirmResult.isConfirmed) {
+        try {
+            const config = {
+                method: 'DELETE',
+                url: URL_PRODUCTS + id,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            const res = await axios(config);
+            statusCode.value = res.status;
+
+            
+            await Swal.fire({
+                title: 'Eliminado!',
+                text: 'El registro ha sido eliminado!',
+                icon: 'success'
+            });
+        } catch (err) {
+            
+            delError.value = err;
+            console.error('Error al eliminar el producto:', err);
+
+            
+            await Swal.fire({
+                icon: 'error',
+                title: 'Error al eliminar el producto',
+                text: err.message 
+            });
         }
-      }
-      const res = await axios(config)
-      statusCode.value = res.status
-      toast.info('Producto Eliminado Correctamente', {
-        autoclose: 3000,
-      });
-    } catch (err) {
-      delError.value = err
     }
-  }
+};
 
 
-  return {
-    getAllProducts,
-    getAllPrices,
-    getAllCategories,
-    getSingleProduct,
-    createProduct,
-    UpdateProduct,
-    deleteProduct,
-    error,
-    products,
-    categories,
-    prices,
-    statusCode,
+return {
+  getAllProducts,
+  getAllPrices,
+  getAllCategories,
+  getSingleProduct,
+  createProduct,
+  UpdateProduct,
+  deleteProduct,
+  error,
+  products,
+  categories,
+  prices,
+  statusCode,
 
 
 
 
-  }
+}
 }
