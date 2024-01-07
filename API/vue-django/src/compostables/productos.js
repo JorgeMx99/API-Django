@@ -56,14 +56,12 @@ export default function useProducts() {
       const { data } = res;
 
       setTimeout(() => {
-
         products.value = data;
-
         // Redirigir a la página de productos
         router.push({ name: 'productos' });
         toast.update(id, {
           render: 'El producto se ha cargado correctamente!',
-          autoClose: 3000,
+          autoClose: 5000,
           type: 'success',
           isLoading: false
         });
